@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lagos Bites — Authentic Nigerian Cuisine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#1c1008;--paper:#fdf6e8;--warm:#f5ead0;
+  --gold:#c8860a;--ember:#b83a10;
+  --muted:#7a6040;--border:#e0d0b0;
+  --ff-h:'Cormorant Garamond',Georgia,serif;
+  --ff-b:'Outfit',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--ff-b);font-weight:400;line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}ul{list-style:none}img{display:block;max-width:100%}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--warm)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:99px}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:20px 0;transition:all .4s var(--ease)}
+.nav.stuck{background:rgba(253,246,232,.97);backdrop-filter:blur(16px);padding:13px 0;border-bottom:1px solid var(--border);box-shadow:0 2px 20px rgba(200,134,10,.07)}
+.nav__inner{width:min(1240px,94%);margin:auto;display:flex;align-items:center;justify-content:space-between}
+.nav__logo{font-family:var(--ff-h);font-size:1.9rem;font-weight:700;color:var(--ink)}
+.nav__logo em{color:var(--ember);font-style:italic}
+.nav__links{display:flex;gap:36px;align-items:center}
+.nav__links a{font-size:.82rem;font-weight:500;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;position:relative;transition:color .3s}
+.nav__links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:var(--gold);transition:width .3s var(--ease)}
+.nav__links a:hover,.nav__links a.active{color:var(--ink)}
+.nav__links a:hover::after,.nav__links a.active::after{width:100%}
+.nav__cta{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:var(--ember);color:#fff;font-size:.8rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;transition:all .3s var(--ease)}
+.nav__cta:hover{background:var(--gold);transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,134,10,.3)}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.burger span{display:block;width:24px;height:1.5px;background:var(--ink);border-radius:2px;transition:all .35s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob{display:none;position:fixed;inset:0;z-index:800;background:var(--paper);flex-direction:column;align-items:center;justify-content:center;gap:44px}
+.mob.open{display:flex}
+.mob a{font-family:var(--ff-h);font-size:3rem;font-weight:600;color:var(--ink);opacity:0;transform:translateY(18px);transition:opacity .4s,transform .4s,color .3s}
+.mob.open a{opacity:1;transform:none}
+.mob.open a:nth-child(1){transition-delay:.07s}.mob.open a:nth-child(2){transition-delay:.14s}
+.mob.open a:nth-child(3){transition-delay:.21s}.mob.open a:nth-child(4){transition-delay:.28s}
+.mob a:hover{color:var(--ember)}
+@media(max-width:780px){.nav__links,.nav__cta{display:none}.burger{display:flex}}
+
+/* HERO */
+.hero{min-height:100svh;display:grid;grid-template-columns:1fr 1fr;align-items:center;background:var(--ink);overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 75% 50%,rgba(184,58,16,.22) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 20% 80%,rgba(200,134,10,.12) 0%,transparent 55%)}
+.hero__l{position:relative;z-index:1;padding:130px 0 80px 6%}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.eyebrow::before{content:'';display:block;width:28px;height:1.5px;background:var(--gold)}
+.eyebrow.e{color:var(--ember)}.eyebrow.e::before{background:var(--ember)}
+h1.ht{font-family:var(--ff-h);font-size:clamp(3.4rem,7vw,5.8rem);font-weight:700;color:#fdf6e8;line-height:1.02;letter-spacing:-.02em}
+h1.ht em{font-style:italic;color:var(--gold);display:block}
+.hero__sub{margin-top:22px;color:#9a8a6a;font-size:1rem;max-width:380px;line-height:1.8;font-weight:300}
+.hero__btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.bp{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;background:var(--ember);color:#fff;font-family:var(--ff-b);font-size:.86rem;font-weight:600;letter-spacing:.05em;border:none;cursor:pointer;transition:all .3s var(--ease)}
+.bp:hover{background:var(--gold);transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,134,10,.35)}
+.bg{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;background:transparent;color:#fdf6e8;font-family:var(--ff-b);font-size:.86rem;font-weight:500;letter-spacing:.05em;border:1.5px solid rgba(253,246,232,.25);cursor:pointer;transition:all .3s var(--ease)}
+.bg:hover{border-color:var(--gold);color:var(--gold)}
+.hero__stats{display:flex;gap:38px;flex-wrap:wrap;margin-top:58px;padding-top:38px;border-top:1px solid rgba(253,246,232,.09)}
+.sn{font-family:var(--ff-h);font-size:2.3rem;font-weight:700;color:#fdf6e8;line-height:1}
+.sn span{color:var(--gold)}.sl{font-size:.73rem;color:#7a6a50;margin-top:4px}
+.hero__r{position:relative;height:100svh;overflow:hidden}
+.mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px}
+.mosaic img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(1.15);transition:filter .45s}
+.mosaic img:hover{filter:brightness(.9) saturate(1.25)}
+.mosaic img:first-child{grid-row:1/3}
+.hero__fade{position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,transparent 22%),linear-gradient(to top,var(--ink) 0%,transparent 18%)}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.hero__r{height:56vw}.hero__l{padding:100px 5% 56px}}
+
+/* TICKER */
+.ticker{background:var(--gold);overflow:hidden;white-space:nowrap;padding:13px 0;border-top:1.5px solid #b07808;border-bottom:1.5px solid #b07808}
+.ticker__t{display:inline-flex;animation:tick 32s linear infinite}
+.ticker__t span{font-family:var(--ff-h);font-size:1rem;font-weight:600;color:var(--ink);padding:0 26px}
+.ticker__t .dot{color:var(--ember)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SHARED */
+.wrap{width:min(1240px,94%);margin:auto}
+.sh{font-family:var(--ff-h);font-size:clamp(2.2rem,4vw,3.3rem);font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.01em}
+.sp{color:var(--muted);font-size:.97rem;max-width:480px;margin-top:13px;font-weight:300}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* MENU */
+.menu-sec{padding:100px 0}
+.mhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:22px;margin-bottom:46px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:9px 22px;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:var(--ff-b);font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease)}
+.tab:hover{border-color:var(--gold);color:var(--gold)}
+.tab.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1px;background:var(--border)}
+.card{display:none;flex-direction:column;background:#fff;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.card.show{display:flex}
+.card:hover{transform:translateY(-5px);box-shadow:0 20px 52px rgba(28,16,8,.13);z-index:2;position:relative}
+.card__img{height:215px;overflow:hidden;position:relative;background:var(--warm)}
+/* Shimmer skeleton while images load */
+.card__img::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);background-size:200% 100%;animation:shimmer 1.4s infinite;pointer-events:none;z-index:1}
+.card__img.loaded::after{display:none}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.card__img img{width:100%;height:100%;object-fit:cover;transition:transform .55s var(--ease);position:relative;z-index:2}
+.card:hover .card__img img{transform:scale(1.08)}
+.bdg{position:absolute;top:12px;left:12px;background:var(--ember);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;z-index:3}
+.card__body{padding:20px 22px;flex:1;display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.card__name{font-family:var(--ff-h);font-size:1.22rem;font-weight:600;color:var(--ink)}
+.chilis{display:flex;gap:3px;margin-top:5px}
+.ch{font-size:.68rem;opacity:.15}.ch.on{opacity:1}
+.card__desc{font-size:.83rem;color:var(--muted);margin-top:8px;flex:1;font-weight:300;line-height:1.63}
+.card__foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:15px;border-top:1px solid var(--border)}
+.price{font-family:var(--ff-h);font-size:1.38rem;font-weight:700;color:var(--gold)}
+.addbtn{width:33px;height:33px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--muted);font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s var(--ease)}
+.addbtn:hover{border-color:var(--gold);background:var(--gold);color:#fff}
+
+/* ABOUT */
+.about-sec{padding:100px 0;background:var(--warm);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.aphoto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.aph{overflow:hidden;border:1px solid var(--border);background:var(--warm)}
+.aph:nth-child(1){margin-top:36px}.aph:nth-child(4){margin-top:-36px}
+.aph img{width:100%;height:175px;object-fit:cover;display:block;transition:transform .45s var(--ease)}
+.aph:hover img{transform:scale(1.06)}
+.aph__l{padding:9px 12px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:#fff;border-top:1px solid var(--border)}
+.pull{font-family:var(--ff-h);font-size:1.5rem;font-style:italic;color:var(--ink);line-height:1.42;padding-left:20px;border-left:3px solid var(--gold);margin:24px 0}
+.abody{color:var(--muted);font-weight:300;line-height:1.85}
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.feat{display:flex;align-items:flex-start;gap:11px;padding:13px;background:#fff;border:1px solid var(--border);transition:border-color .3s}
+.feat:hover{border-color:var(--gold)}
+.feat-ic{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.feat strong{display:block;font-size:.86rem;color:var(--ink);font-weight:600}
+.feat span{font-size:.76rem;color:var(--muted);font-weight:300}
+@media(max-width:900px){.agrid{grid-template-columns:1fr;gap:44px}}
+
+/* CONTACT */
+.contact-sec{padding:100px 0}
+.cgrid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:start}
+.cinfo-items{margin-top:34px;display:flex;flex-direction:column;gap:20px}
+.ci{display:flex;align-items:flex-start;gap:14px}
+.ci-ic{width:40px;height:40px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;margin-top:2px}
+.ci-lbl{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.ci-val{color:var(--ink);font-size:.9rem;margin-top:2px;font-weight:300}
+.map-wrap{margin-top:28px;height:205px;overflow:hidden;border:1px solid var(--border)}
+.map-wrap iframe{width:100%;height:100%;border:none}
+.cform{background:#fff;border:1px solid var(--border);padding:38px}
+.form-title{font-family:var(--ff-h);font-size:1.9rem;font-weight:700;color:var(--ink);margin-bottom:26px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 13px;background:var(--warm);border:1.5px solid var(--border);color:var(--ink);font-family:var(--ff-b);font-size:.88rem;font-weight:300;outline:none;appearance:none;transition:border-color .3s,box-shadow .3s}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted);opacity:.55}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,134,10,.1);background:#fff}
+.fg input.err,.fg select.err,.fg textarea.err{border-color:var(--ember);box-shadow:0 0 0 3px rgba(184,58,16,.1)}
+.emsg{display:none;font-size:.72rem;color:var(--ember);margin-top:4px}
+.emsg.show{display:block}
+.fg textarea{resize:vertical;min-height:96px}
+.fg select option{background:var(--paper)}
+.fsub{width:100%;padding:14px;font-size:.88rem}
+@media(max-width:900px){.cgrid{grid-template-columns:1fr}.cform{padding:26px 18px}}
+@media(max-width:560px){.frow{grid-template-columns:1fr}}
+
+/* TOAST */
+.toast{position:fixed;bottom:26px;right:26px;background:#1a3a1e;border:1px solid #3a7a42;color:#7ecf8a;padding:13px 20px;font-size:.86rem;font-weight:500;z-index:9999;transform:translateY(120%);opacity:0;transition:all .4s var(--ease);display:flex;align-items:center;gap:9px}
+.toast.show{transform:none;opacity:1}
+
+/* FOOTER */
+.footer{background:var(--ink);color:var(--paper);padding:60px 0 26px}
+.ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.07)}
+.flogo{font-family:var(--ff-h);font-size:1.65rem;font-weight:700}
+.flogo em{color:var(--gold);font-style:italic}
+.ftag{color:#7a6a50;font-size:.83rem;margin-top:11px;max-width:215px;line-height:1.75;font-weight:300}
+.fsocs{display:flex;gap:9px;margin-top:20px}
+.fsoc{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .3s var(--ease)}
+.fsoc:hover{border-color:var(--gold);background:rgba(200,134,10,.1);transform:translateY(-2px)}
+.fcolh{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--paper);margin-bottom:14px}
+.flinks{display:flex;flex-direction:column;gap:9px}
+.flinks a{color:#7a6a50;font-size:.84rem;font-weight:300;transition:color .3s}
+.flinks a:hover{color:var(--gold)}
+.fhr{display:flex;justify-content:space-between;color:#7a6a50;font-size:.82rem;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-weight:300}
+.fhr span:last-child{color:#9a8a6a}
+.fbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:11px;padding-top:24px}
+.fcopy{color:#5a4a30;font-size:.76rem;font-weight:300}
+.fcopy strong{color:var(--gold);font-weight:600}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.ftop{grid-template-columns:1fr}}
+section{scroll-margin-top:80px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#home" class="nav__logo">Lagos<em>Bites</em></a>
+    <ul class="nav__links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">Reserve a Table</a>
+    <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<nav class="mob" id="mob">
+  <a href="#home" onclick="closeMob()">Home</a>
+  <a href="#menu" onclick="closeMob()">Menu</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero__l">
+    <div class="eyebrow">Victoria Island, Lagos</div>
+    <h1 class="ht">The Taste of<br><em>Real Nigeria</em></h1>
+    <p class="hero__sub">Hand-crafted dishes rooted in generations of West African tradition &mdash; bold, honest, unforgettable.</p>
+    <div class="hero__btns">
+      <a href="#contact" class="bp">Reserve a Table &rarr;</a>
+      <a href="#menu" class="bg">Browse Menu</a>
+    </div>
+    <div class="hero__stats">
+      <div><div class="sn">12<span>+</span></div><div class="sl">Years Open</div></div>
+      <div><div class="sn">80<span>+</span></div><div class="sl">Dishes</div></div>
+      <div><div class="sn">4.9<span>&#9733;</span></div><div class="sl">Rating</div></div>
+      <div><div class="sn">50K<span>+</span></div><div class="sl">Guests Served</div></div>
+    </div>
+  </div>
+  <div class="hero__r">
+    <div class="mosaic">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jollof_Rice.jpg/800px-Jollof_Rice.jpg" alt="Jollof Rice"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Grilled_beef_suya.jpg/800px-Grilled_beef_suya.jpg" alt="Suya"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Fried_plantains_in_a_restaurant_in_Lagos_Island%2C_Lagos%2C_Nigeria.jpg/800px-Fried_plantains_in_a_restaurant_in_Lagos_Island%2C_Lagos%2C_Nigeria.jpg" alt="Fried Plantains"/>
+    </div>
+    <div class="hero__fade"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__t">
+    <span>Jollof Rice</span><span class="dot">&#10022;</span><span>Suya Skewers</span><span class="dot">&#10022;</span>
+    <span>Pepper Soup</span><span class="dot">&#10022;</span><span>Egusi Soup</span><span class="dot">&#10022;</span>
+    <span>Puff-Puff</span><span class="dot">&#10022;</span><span>Banga Soup</span><span class="dot">&#10022;</span>
+    <span>Zobo Drink</span><span class="dot">&#10022;</span><span>Moi Moi</span><span class="dot">&#10022;</span>
+    <span>Abacha Salad</span><span class="dot">&#10022;</span><span>Jollof Rice</span><span class="dot">&#10022;</span>
+    <span>Suya Skewers</span><span class="dot">&#10022;</span><span>Pepper Soup</span><span class="dot">&#10022;</span>
+    <span>Egusi Soup</span><span class="dot">&#10022;</span><span>Puff-Puff</span><span class="dot">&#10022;</span>
+    <span>Banga Soup</span><span class="dot">&#10022;</span><span>Zobo Drink</span><span class="dot">&#10022;</span>
+    <span>Moi Moi</span><span class="dot">&#10022;</span><span>Abacha Salad</span><span class="dot">&#10022;</span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="menu-sec" id="menu">
+  <div class="wrap">
+    <div class="mhead reveal">
+      <div>
+        <div class="eyebrow e">Our Menu</div>
+        <h2 class="sh">Eat What Lagos<br>Was Born to Cook</h2>
+        <p class="sp">Every dish made fresh, every day. No shortcuts, no compromises.</p>
+      </div>
+      <div class="tabs">
+        <button class="tab on" data-cat="starters">Starters</button>
+        <button class="tab" data-cat="mains">Main Course</button>
+        <button class="tab" data-cat="drinks">Drinks</button>
+      </div>
+    </div>
+    <div class="mgrid" id="mgrid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec" id="about">
+  <div class="wrap">
+    <div class="agrid">
+      <div class="aphoto-grid reveal">
+        <div class="aph">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Egusi_soup.jpg/640px-Egusi_soup.jpg" alt="Soups and Stews"/>
+          <div class="aph__l">Soups &amp; Stews</div>
+        </div>
+        <div class="aph">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jollof_Rice.jpg/640px-Jollof_Rice.jpg" alt="Rice Dishes"/>
+          <div class="aph__l">Rice Dishes</div>
+        </div>
+        <div class="aph">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Grilled_beef_suya.jpg/640px-Grilled_beef_suya.jpg" alt="Grills and Suya"/>
+          <div class="aph__l">Grills &amp; Suya</div>
+        </div>
+        <div class="aph">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Zobo_drink.jpg/640px-Zobo_drink.jpg" alt="Local Drinks"/>
+          <div class="aph__l">Local Drinks</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow e">Our Story</div>
+        <h2 class="sh">Rooted in<br>Every Pot</h2>
+        <blockquote class="pull">"Good food doesn't need a story &mdash; it tells one."</blockquote>
+        <p class="abody">Lagos Bites began in 2012 from a family compound in Surulere. Chef Adaeze Okonkwo grew up watching her grandmother grind melon seeds by hand and slow-cook soups that filled the entire street with their aroma.</p>
+        <p class="abody" style="margin-top:11px">Today we serve over 300 guests a day from our Victoria Island kitchen &mdash; but every recipe is still made exactly the way it was taught to us. No shortcuts. No compromises. Just real Nigerian food.</p>
+        <div class="feats">
+          <div class="feat"><div class="feat-ic">&#127807;</div><div><strong>Locally Sourced</strong><span>Fresh from Nigerian farms daily</span></div></div>
+          <div class="feat"><div class="feat-ic">&#128104;&#8205;&#127859;</div><div><strong>Expert Chefs</strong><span>15+ years each in the kitchen</span></div></div>
+          <div class="feat"><div class="feat-ic">&#10003;</div><div><strong>No Preservatives</strong><span>100% natural, cooked fresh</span></div></div>
+          <div class="feat"><div class="feat-ic">&#127942;</div><div><strong>Award Winning</strong><span>Best African Dining 2023</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <div class="wrap">
+    <div class="cgrid">
+      <div class="reveal">
+        <div class="eyebrow e">Find Us</div>
+        <h2 class="sh">Come Dine<br>With Us</h2>
+        <p class="sp">Walk-ins welcome &mdash; but reserve ahead for the best seats in the house.</p>
+        <div class="cinfo-items">
+          <div class="ci"><div class="ci-ic">&#128205;</div><div><div class="ci-lbl">Location</div><div class="ci-val">14 Adeola Odeku Street, Victoria Island, Lagos</div></div></div>
+          <div class="ci"><div class="ci-ic">&#128222;</div><div><div class="ci-lbl">Phone</div><div class="ci-val">+234 801 234 5678</div></div></div>
+          <div class="ci"><div class="ci-ic">&#9993;</div><div><div class="ci-lbl">Email</div><div class="ci-val">hello@lagosbites.ng</div></div></div>
+          <div class="ci"><div class="ci-ic">&#128336;</div><div><div class="ci-lbl">Hours</div><div class="ci-val">Mon&ndash;Sat 11am&ndash;10pm &nbsp;|&nbsp; Sun 12pm&ndash;9pm</div></div></div>
+        </div>
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.728!2d3.4188!3d6.4281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjUnNDEuMiJOIDPCsDI1JzA3LjciRQ!5e0!3m2!1sen!2sng!4v1680000000000" allowfullscreen loading="lazy" title="Lagos Bites Location"></iframe>
+        </div>
+      </div>
+      <div class="reveal">
+        <form class="cform" id="rform" novalidate>
+          <div class="form-title">Make a Reservation</div>
+          <div class="frow">
+            <div class="fg"><label for="fn">First Name</label><input type="text" id="fn" placeholder="Emeka"/><div class="emsg" id="fn-e">Required.</div></div>
+            <div class="fg"><label for="ln">Last Name</label><input type="text" id="ln" placeholder="Obi"/><div class="emsg" id="ln-e">Required.</div></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label for="em">Email</label><input type="email" id="em" placeholder="you@email.com"/><div class="emsg" id="em-e">Valid email required.</div></div>
+            <div class="fg"><label for="ph">Phone</label><input type="tel" id="ph" placeholder="+234 800 000 0000"/><div class="emsg" id="ph-e">Required.</div></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label for="dt">Date</label><input type="date" id="dt"/><div class="emsg" id="dt-e">Required.</div></div>
+            <div class="fg"><label for="tm">Time</label>
+              <select id="tm"><option value="">Select time</option><option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option><option>9:00 PM</option></select>
+              <div class="emsg" id="tm-e">Required.</div>
+            </div>
+          </div>
+          <div class="fg"><label for="gs">Guests</label>
+            <select id="gs"><option value="">Select guests</option><option>1 Guest</option><option>2 Guests</option><option>3&ndash;4 Guests</option><option>5&ndash;6 Guests</option><option>7&ndash;10 Guests</option><option>10+ (Private Dining)</option></select>
+            <div class="emsg" id="gs-e">Required.</div>
+          </div>
+          <div class="fg"><label for="msg">Special Requests</label><textarea id="msg" placeholder="Allergies, occasions, seating preferences..."></textarea></div>
+          <button type="submit" class="bp fsub">Confirm Reservation &rarr;</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="ftop">
+      <div>
+        <div class="flogo">Lagos<em>Bites</em></div>
+        <p class="ftag">Authentic Nigerian cuisine bringing the soul of Lagos to your table since 2012.</p>
+        <div class="fsocs">
+          <a href="#" class="fsoc" aria-label="Instagram">&#128248;</a>
+          <a href="#" class="fsoc" aria-label="Facebook">f</a>
+          <a href="#" class="fsoc" aria-label="Twitter">&#120143;</a>
+          <a href="#" class="fsoc" aria-label="TikTok">&#9835;</a>
+        </div>
+      </div>
+      <div>
+        <div class="fcolh">Navigate</div>
+        <div class="flinks"><a href="#home">Home</a><a href="#menu">Menu</a><a href="#about">About</a><a href="#contact">Reservations</a><a href="#">Private Events</a></div>
+      </div>
+      <div>
+        <div class="fcolh">Hours</div>
+        <div class="fhr"><span>Mon &ndash; Fri</span><span>11am &ndash; 10pm</span></div>
+        <div class="fhr"><span>Saturday</span><span>10am &ndash; 11pm</span></div>
+        <div class="fhr"><span>Sunday</span><span>12pm &ndash; 9pm</span></div>
+      </div>
+      <div>
+        <div class="fcolh">Contact</div>
+        <div class="flinks"><a href="#">14 Adeola Odeku St, V.I.</a><a href="tel:+2348012345678">+234 801 234 5678</a><a href="mailto:hello@lagosbites.ng">hello@lagosbites.ng</a></div>
+      </div>
+    </div>
+    <div class="fbot">
+      <p class="fcopy">&copy; 2024 <strong>Lagos Bites</strong>. All rights reserved.</p>
+      <p class="fcopy">Made with &#10084; in Lagos, Nigeria</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">&#10003; Reservation confirmed! We'll see you soon.</div>
+
+<script>
+// ── REAL FOOD PHOTOS from Wikimedia Commons (CC-licensed, browser-accessible) ──
+const MENU = [
+  // STARTERS
+  { cat:'starters', badge:null, spice:1, price:'&#8358;2,800', name:'Puff-Puff Duo',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nigerian_puff_puff.jpg/640px-Nigerian_puff_puff.jpg',
+    desc:'Airy deep-fried dough balls, lightly sweetened, served with a tangy pepper dipping sauce.' },
+  { cat:'starters', badge:'Bestseller', spice:3, price:'&#8358;4,500', name:'Suya Skewers',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Grilled_beef_suya.jpg/640px-Grilled_beef_suya.jpg',
+    desc:'Thinly sliced beef marinated in a spiced groundnut rub, grilled over open flame. A Lagos street-food classic.' },
+  { cat:'starters', badge:null, spice:3, price:'&#8358;3,800', name:'Pepper Soup',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Nigerian_catfish_pepper_soup.jpg/640px-Nigerian_catfish_pepper_soup.jpg',
+    desc:'Silky, aromatic broth with goat meat, crayfish, and a warming blend of uziza and ehuru spices.' },
+  { cat:'starters', badge:null, spice:1, price:'&#8358;2,200', name:'Moi Moi Royale',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Moin_moin.jpg/640px-Moin_moin.jpg',
+    desc:'Steamed black-eyed pea pudding filled with a boiled egg, fish flakes, and peppered vegetables.' },
+  { cat:'starters', badge:'New', spice:2, price:'&#8358;3,200', name:'Abacha Salad',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Abacha_and_ugba.jpg/640px-Abacha_and_ugba.jpg',
+    desc:'Shredded cassava tossed with garden egg, stockfish, ugba, and a vibrant palm oil dressing.' },
+  { cat:'starters', badge:null, spice:2, price:'&#8358;5,000', name:'Fried Shrimp &amp; Yam',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fried_yam_with_peppered_fish.jpg/640px-Fried_yam_with_peppered_fish.jpg',
+    desc:'Crispy yam fingers paired with tiger prawns in a house-spiced batter and aioli.' },
+  // MAINS
+  { cat:'mains', badge:'Bestseller', spice:2, price:'&#8358;6,500', name:'Party Jollof Rice',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jollof_Rice.jpg/640px-Jollof_Rice.jpg',
+    desc:'Smoky long-grain rice slow-cooked in a tomato and pepper base with a signature "bottom pot" crust.' },
+  { cat:'mains', badge:null, spice:2, price:'&#8358;5,800', name:'Egusi Soup &amp; Eba',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Egusi_soup.jpg/640px-Egusi_soup.jpg',
+    desc:'Ground melon seed soup with leafy greens, assorted meats, and smoked fish. Served with smooth eba.' },
+  { cat:'mains', badge:"Chef's Pick", spice:3, price:'&#8358;7,200', name:'Banga Soup',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Banga_soup.jpg/640px-Banga_soup.jpg',
+    desc:'Richly spiced palm fruit soup from the Delta, cooked with oxtail, catfish, and banga spices.' },
+  { cat:'mains', badge:null, spice:3, price:'&#8358;6,000', name:'Ofada Rice &amp; Stew',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Ofada_rice_with_ayamase_stew.jpg/640px-Ofada_rice_with_ayamase_stew.jpg',
+    desc:'Unpolished local rice with a pungent locust-bean ayamase stew and assorted offal.' },
+  { cat:'mains', badge:'New', spice:3, price:'&#8358;8,500', name:'Catfish Pepper Steak',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Nigerian_catfish_pepper_soup.jpg/640px-Nigerian_catfish_pepper_soup.jpg',
+    desc:'Whole catfish grilled in a deep red atadindin sauce with garden eggs and scent leaves.' },
+  { cat:'mains', badge:null, spice:1, price:'&#8358;3,500', name:'Plantain &amp; Omelette',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Fried_plantains_in_a_restaurant_in_Lagos_Island%2C_Lagos%2C_Nigeria.jpg/640px-Fried_plantains_in_a_restaurant_in_Lagos_Island%2C_Lagos%2C_Nigeria.jpg',
+    desc:'Ripe fried plantain with a fluffy three-egg omelette loaded with tomatoes, peppers, and onions.' },
+  // DRINKS
+  { cat:'drinks', badge:'Bestseller', spice:0, price:'&#8358;1,500', name:'Zobo Royale',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Zobo_drink.jpg/640px-Zobo_drink.jpg',
+    desc:'Chilled hibiscus tea brewed with cloves, ginger, and pineapple. Served over crushed ice.' },
+  { cat:'drinks', badge:null, spice:0, price:'&#8358;1,800', name:'Kunu Shake',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Kunu_drink.jpg/640px-Kunu_drink.jpg',
+    desc:'Traditional millet and sorghum drink blended with dates, ginger, and coconut milk.' },
+  { cat:'drinks', badge:'New', spice:0, price:'&#8358;2,200', name:'Agbo Igi Cocktail',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Zobo_Zobo_drink_Nigeria.jpg/640px-Zobo_Zobo_drink_Nigeria.jpg',
+    desc:'A bold herb-infused mocktail with bitter leaf extract, honey, lime, and club soda.' },
+  { cat:'drinks', badge:null, spice:0, price:'&#8358;1,600', name:'Tamarind Lemonade',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Zobo_drink.jpg/640px-Zobo_drink.jpg',
+    desc:'House-made tamarind concentrate shaken with fresh lemon juice, sugar syrup, and a pinch of salt.' },
+  { cat:'drinks', badge:null, spice:0, price:'&#8358;1,400', name:'Fura da Nono',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Kunu_drink.jpg/640px-Kunu_drink.jpg',
+    desc:'Blended millet balls and fresh cow milk, sweetened and spiced with ginger.' },
+  { cat:'drinks', badge:null, spice:0, price:'&#8358;1,900', name:'Baobab Iced Tea',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Zobo_Zobo_drink_Nigeria.jpg/640px-Zobo_Zobo_drink_Nigeria.jpg',
+    desc:'Refreshing cold brew from baobab fruit powder, lemongrass, and raw honey.' }
+];
+
+// Fallback image if a Wikimedia URL fails
+const FALLBACK = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Jollof_Rice.jpg/640px-Jollof_Rice.jpg';
+
+function renderMenu(cat) {
+  const grid = document.getElementById('mgrid');
+  grid.innerHTML = '';
+  MENU.filter(i => i.cat === cat).forEach((item, idx) => {
+    const spice = item.spice > 0
+      ? '<div class="chilis">' + [1,2,3].map(n => `<span class="ch ${n<=item.spice?'on':''}">&#9670;</span>`).join('') + '</div>'
+      : '';
+    const badge = item.badge ? `<div class="bdg">${item.badge}</div>` : '';
+    const el = document.createElement('div');
+    el.className = 'card show reveal';
+    el.style.transitionDelay = (idx * 0.07) + 's';
+    el.innerHTML = `
+      <div class="card__img">
+        <img src="${item.img}" alt="${item.name.replace(/&amp;/g,'&')}" loading="lazy"
+          onerror="this.src='${FALLBACK}'"
+          onload="this.closest('.card__img').classList.add('loaded')"/>
+        ${badge}
+      </div>
+      <div class="card__body">
+        <div class="card__name">${item.name}</div>
+        ${spice}
+        <p class="card__desc">${item.desc}</p>
+        <div class="card__foot">
+          <div class="price">${item.price}</div>
+          <button class="addbtn" aria-label="Add">+</button>
+        </div>
+      </div>`;
+    grid.appendChild(el);
+  });
+  requestAnimationFrame(observe);
+}
+
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    renderMenu(btn.dataset.cat);
+  });
+});
+renderMenu('starters');
+
+document.getElementById('mgrid').addEventListener('click', e => {
+  const btn = e.target.closest('.addbtn');
+  if (!btn) return;
+  btn.textContent = '\u2713';
+  btn.style.cssText = 'background:#2d7a38;border-color:#2d7a38;color:#fff';
+  setTimeout(() => { btn.textContent = '+'; btn.style.cssText = ''; }, 1500);
+});
+
+function observe() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+}
+observe();
+
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('stuck', scrollY > 60), { passive:true });
+
+const secs = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav__links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive:true });
+
+const burger = document.getElementById('burger');
+const mob    = document.getElementById('mob');
+burger.addEventListener('click', () => {
+  const open = mob.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+function closeMob() {
+  mob.classList.remove('open'); burger.classList.remove('open'); document.body.style.overflow = '';
+}
+
+const rform = document.getElementById('rform');
+function setErr(id, eid, bad) {
+  document.getElementById(id).classList.toggle('err', bad);
+  document.getElementById(eid).classList.toggle('show', bad);
+  return !bad;
+}
+['fn','ln','em','ph','dt','tm','gs'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById(id).classList.remove('err');
+    const e = document.getElementById(id + '-e'); if (e) e.classList.remove('show');
+  });
+});
+rform.addEventListener('submit', e => {
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const ok = [
+    setErr('fn','fn-e',!v('fn')), setErr('ln','ln-e',!v('ln')),
+    setErr('em','em-e',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('em'))),
+    setErr('ph','ph-e',!v('ph')), setErr('dt','dt-e',!document.getElementById('dt').value),
+    setErr('tm','tm-e',!document.getElementById('tm').value),
+    setErr('gs','gs-e',!document.getElementById('gs').value)
+  ].every(Boolean);
+  if (ok) {
+    rform.reset();
+    const t = document.getElementById('toast'); t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4500);
+  }
+});
+document.getElementById('dt').min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
